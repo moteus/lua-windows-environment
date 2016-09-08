@@ -16,7 +16,7 @@ set LUA_SYSTEM_PATH=%LUA_DIR%\bin;%LUA_DIR%\systree\bin;%LUA_ARCH_DIR%\LuaRocks;
 
 
 set LUA_INIT=
-set LUA_PATH=!\?.lua;!\?\init.lua;?.lua;?\init.lua;%LUA_DIR%\systree\share\lua\5.1\?.lua;%LUA_DIR%\systree\share\lua\%LUA_VER%\?\init.lua
+set LUA_PATH=!\?.lua;!\?\init.lua;?.lua;?\init.lua;%LUA_DIR%\systree\share\lua\%LUA_VER%\?.lua;%LUA_DIR%\systree\share\lua\%LUA_VER%\?\init.lua
 set LUA_CPATH=!\?.dll;?.dll;%LUA_DIR%\systree\lib\lua\%LUA_VER%\?.dll
 set PATH=%LUA_SYSTEM_PATH%;%PATH%
 
