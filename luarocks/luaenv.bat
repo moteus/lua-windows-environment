@@ -29,8 +29,8 @@ if "%3"=="config" (
   goto end
 )
 
-doskey luarocks=%LUA_ARCH_DIR%\LuaRocks\luarocks-%LUA_VER%.bat
-doskey lua=%LUA_DIR%\bin\lua%LUA_VER:~0,1%%LUA_VER:~-1,1%.exe
+doskey luarocks=%LUA_ARCH_DIR%\LuaRocks\luarocks-%LUA_VER%.bat $*
+doskey lua=%LUA_DIR%\bin\lua%LUA_VER:~0,1%%LUA_VER:~-1,1%.exe $*
 
 echo ==========================================
 echo  Set Lua %LUA_VER%/%LUA_ARCH% environment
