@@ -29,4 +29,4 @@ You can install as part of Microsoft Visual Studio or as part Microsoft SDK.
   * `\luarocks\*\LuaRocks\config-*.lua`
   * `\luarocks\*\LuaRocks\luarocks-*.bat`
   * `\luarocks\*\LuaRocks\luarocks-admin-*.bat`
-  * `\luarocks\*\LuaRocks\lua\luarocks\site_config_*.lua`
+  * `\luarocks\*\LuaRocks\lua\luarocks\site_config.lua`
