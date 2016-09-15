@@ -4,7 +4,37 @@ if not "%1"=="x86" if not "%1"=="x64" goto :usage
 
 if not "%2"=="5.1" if not "%2"=="5.2" if not "%2"=="5.3" goto :usage
 
-if "%3"=="config" SETLOCAL
+if "%3"=="config" (
+  SETLOCAL
+  goto :init
+)
+
+:: Remove preview variables from PATH variable
+
+setlocal enabledelayedexpansion
+
+set CLEAN_PATH=
+set t=%PATH%
+
+:loop
+for /f "tokens=1* delims=;" %%a in ("%t%") do (
+  set t=%%b
+  if "%%a"=="%LUA_DIR%\bin"               goto :end_loop
+  if "%%a"=="%LUA_DIR%\systree\bin"       goto :end_loop
+  if "%%a"=="%LUA_ARCH_DIR%\LuaRocks"     goto :end_loop
+  if "%%a"=="%LUA_ARCH_DIR%\external\bin" goto :end_loop
+  set b=%%a
+)
+
+if not "%CLEAN_PATH%"=="" set CLEAN_PATH=!CLEAN_PATH!;
+set CLEAN_PATH=%CLEAN_PATH%%b%
+
+:end_loop
+if defined t goto :loop
+
+endlocal && set PATH=%CLEAN_PATH%
+
+:init
 
 set LUA_ARCH=%1
 set LUA_VER=%2
@@ -13,7 +43,6 @@ set LUA_BASE=C:\LuaRocks
 set LUA_ARCH_DIR=%LUA_BASE%\%LUA_ARCH%
 set LUA_DIR=%LUA_ARCH_DIR%\%LUA_VER%
 set LUA_SYSTEM_PATH=%LUA_DIR%\bin;%LUA_DIR%\systree\bin;%LUA_ARCH_DIR%\LuaRocks;%LUA_ARCH_DIR%\external\bin
-
 
 set LUA_INIT=
 set LUA_PATH=!\?.lua;!\?\init.lua;?.lua;?\init.lua;%LUA_DIR%\systree\share\lua\%LUA_VER%\?.lua;%LUA_DIR%\systree\share\lua\%LUA_VER%\?\init.lua
