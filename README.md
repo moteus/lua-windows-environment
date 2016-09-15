@@ -2,6 +2,8 @@ This is my basic installation which allows me easy switch beetween Lua versions.
 To be able install binary rocks also need install MS compiler.
 You can install as part of Microsoft Visual Studio or as part Microsoft SDK.
 
+![Screenshot](image/luaver.gif)
+
 ###install
  * Copy `luarocks` directory on `c:` drive.
  * Copy Lua binaries/lib/include files to appropriate folder.
