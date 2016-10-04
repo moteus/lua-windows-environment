@@ -333,7 +333,7 @@ local defaults = {
    },
 
    lua_extension = "lua",
-   lua_interpreter = site_config.LUA_INTERPRETER or "lua",
+   lua_interpreter = cfg.variables.LUA_INTERPRETER or site_config.LUA_INTERPRETER or "lua",
    downloader = site_config.LUAROCKS_DOWNLOADER or "wget",
    md5checker = site_config.LUAROCKS_MD5CHECKER or "md5sum",
    connection_timeout = 30,  -- 0 = no timeout
@@ -600,7 +600,11 @@ end
 defaults.variables.LIB_EXTENSION = defaults.lib_extension
 defaults.variables.OBJ_EXTENSION = defaults.obj_extension
 defaults.variables.LUAROCKS_PREFIX = site_config.LUAROCKS_PREFIX
-defaults.variables.LUA = site_config.LUA_DIR_SET and (defaults.variables.LUA_BINDIR.."/"..defaults.lua_interpreter) or defaults.lua_interpreter
+if cfg.variables.LUA then
+   defaults.variables.LUA = cfg.variables.LUA
+else
+   defaults.variables.LUA = site_config.LUA_DIR_SET and (defaults.variables.LUA_BINDIR.."/"..defaults.lua_interpreter) or defaults.lua_interpreter
+end
 
 -- Add built-in modules to rocks_provided
 defaults.rocks_provided["lua"] = cfg.lua_version.."-1"

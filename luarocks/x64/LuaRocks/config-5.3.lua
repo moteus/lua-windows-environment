@@ -16,13 +16,16 @@ rocks_trees = {
     },
 }
 
+local LUA_INTERPRETER  = 'lua' .. LUA_SHORT_VER .. '.exe'
+
 variables = {
     MSVCRT           = 'VCRUNTIME140',
     LUALIB           = 'lua' .. LUA_SHORT_VER .. '.lib',
-    LUA_INTERPRETER  = 'lua' .. LUA_SHORT_VER .. '.exe',
+    LUA_INTERPRETER  = LUA_INTERPRETER,
     LUA_INCDIR       = LUA_DIR .. [[\include\]],
     LUA_LIBDIR       = LUA_DIR .. [[\lib\]],
     LUA_BINDIR       = LUA_DIR .. [[\bin]],
+    LUA              = LUA_DIR .. [[\bin\]] .. LUA_INTERPRETER,
 }
 
 external_deps_dirs = {
