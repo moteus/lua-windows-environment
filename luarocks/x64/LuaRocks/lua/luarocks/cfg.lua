@@ -18,7 +18,7 @@ package.loaded["luarocks.cfg"] = cfg
 
 local util = require("luarocks.util")
 
-cfg.lua_version = _VERSION:sub(5)
+cfg.lua_version = _VERSION:match(" (5%.[123])$") or "5.1"
 local version_suffix = cfg.lua_version:gsub("%.", "_")
 
 -- Load site-local global configurations
@@ -468,6 +468,7 @@ if cfg.platforms.mingw32 then
    defaults.variables.LD = "mingw32-gcc"
    defaults.variables.CFLAGS = "-O2"
    defaults.variables.LIBFLAG = "-shared"
+   defaults.makefile = "Makefile"
    defaults.external_deps_patterns = {
       bin = { "?.exe", "?.bat" },
       -- mingw lookup list from http://stackoverflow.com/a/15853231/1793220

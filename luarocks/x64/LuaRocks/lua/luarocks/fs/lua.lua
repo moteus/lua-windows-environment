@@ -96,7 +96,6 @@ end
 -- otherwise.
 function fs_lua.execute_quiet(command, ...)
    assert(type(command) == "string")
-   
    if cfg.verbose then -- omit silencing output
       return fs.execute_string(quote_args(command, ...))
    else

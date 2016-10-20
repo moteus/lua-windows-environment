@@ -72,10 +72,7 @@ local function install_files(files, location, is_module_path, perms)
                if not ok then return nil, err end
                if filename:match("%.lua$") then
                   local basename = modname:match("([^.]+)$")
-                  local baseinfo = filename:gsub("%.lua$", "")
-                  if basename ~= baseinfo then
-                     filename = basename..".lua"
-                  end
+                  filename = basename..".lua"
                end
             else
                dest = dir.path(location, dir.dir_name(modname))
@@ -202,7 +199,7 @@ function build.build_rockspec(rockspec_file, need_to_fetch, minimal_mode, deps_m
    end   
 
    if repos.is_installed(name, version) then
-      repos.delete_version(name, version)
+      repos.delete_version(name, version, deps_mode)
    end
 
    if not minimal_mode then
@@ -240,14 +237,14 @@ function build.build_rockspec(rockspec_file, need_to_fetch, minimal_mode, deps_m
    end)
 
    local build_spec = rockspec.build
-
+   
    if not minimal_mode then
       ok, err = build.apply_patches(rockspec)
       if err then
          return nil, err
       end
    end
-
+   
    if build_spec.type ~= "none" then
 
       -- Temporary compatibility
@@ -320,18 +317,15 @@ function build.build_rockspec(rockspec_file, need_to_fetch, minimal_mode, deps_m
    ok, err = manif.make_rock_manifest(name, version)
    if err then return nil, err end
 
-   ok, err = repos.deploy_files(name, version, repos.should_wrap_bin_scripts(rockspec))
+   ok, err = repos.deploy_files(name, version, repos.should_wrap_bin_scripts(rockspec), deps_mode)
    if err then return nil, err end
    
    util.remove_scheduled_function(rollback)
    rollback = util.schedule_function(function()
-      repos.delete_version(name, version)
+      repos.delete_version(name, version, deps_mode)
    end)
 
    ok, err = repos.run_hook(rockspec, "post_install")
-   if err then return nil, err end
-
-   ok, err = manif.update_manifest(name, version, nil, deps_mode)
    if err then return nil, err end
 
    util.announce_install(rockspec)
