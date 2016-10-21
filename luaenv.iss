@@ -346,12 +346,3 @@ begin
   ReplaceStringInCurFile('C:\LuaRocks', '{app}');
   ReplaceStringInCurFile('c:\luarocks', '{app}');
 end;
-
-
-
-  // To change path from `C:\LuaRocks` need change path in
-  // * `\luarocks\luaenv.bat`
-  // * `\luarocks\*\LuaRocks\config-*.lua`
-  // * `\luarocks\*\LuaRocks\luarocks-*.bat`
-  // * `\luarocks\*\LuaRocks\luarocks-admin-*.bat`
-  // * `\luarocks\*\LuaRocks\lua\luarocks\site_config.lua`
