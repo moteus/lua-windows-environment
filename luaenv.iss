@@ -69,62 +69,24 @@ Name: "Lua53"; Description: "Lua53"; Flags: checkablealone
 Name: "Lua53\LuaService"; Description: "LuaService for Lua 5.3"
 
 Name: "External"; Description: "External libraries"
-; cURL
-Name: "External\curl"; Description: "cURL"
-Name: "External\curl\ossl"; Description: "DLL OpenSSL"; Flags: exclusive
-Name: "External\curl\sspi"; Description: "DLL WinSSPI"; Flags: exclusive
 
-; Expat
-Name: "External\expat"; Description: "Expat"
-Name: "External\expat\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\expat\static";  Description: "Static"; Flags: exclusive
+[Components]
+; External components
 
-; iconv
-Name: "External\iconv"; Description: "iconv"
-Name: "External\iconv\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\iconv\static";  Description: "Static"; Flags: exclusive
+#include ROOT + "\libs\curl\setup.iss"
+#include ROOT + "\libs\expat\setup.iss"
+#include ROOT + "\libs\iconv\setup.iss"
+#include ROOT + "\libs\libffi\setup.iss"
+#include ROOT + "\libs\libuv\setup.iss"
+#include ROOT + "\libs\pcre\setup.iss"
+#include ROOT + "\libs\SQLite\setup.iss"
+#include ROOT + "\libs\zlib\setup.iss"
+#include ROOT + "\libs\ZeroMQ\setup.iss"
+#include ROOT + "\libs\libsodium\setup.iss"
+#include ROOT + "\libs\OpenSSL\setup.iss"
 
-; libffi
-#if Arch == "x86"
-Name: "External\libffi"; Description: "libffi"
-Name: "External\libffi\static";  Description: "Static"; Flags: exclusive
-#endif
-
-; libuv
-Name: "External\libuv"; Description: "libuv"
-Name: "External\libuv\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\libuv\static";  Description: "Static"; Flags: exclusive
-
-; pcre
-Name: "External\pcre"; Description: "PCRE"
-Name: "External\pcre\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\pcre\static";  Description: "Static"; Flags: exclusive
-
-; SQLite
-Name: "External\SQLite"; Description: "SQLite"
-Name: "External\SQLite\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\SQLite\static";  Description: "Static"; Flags: exclusive
-
-; zlib
-Name: "External\zlib"; Description: "zlib"
-Name: "External\zlib\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\zlib\static";  Description: "Static"; Flags: exclusive
-
-; ZeroMQ
-Name: "External\ZeroMQ"; Description: "ZeroMQ"
-Name: "External\ZeroMQ\dynamic"; Description: "Dynamic"; Flags: exclusive
-
-; libsodium
-Name: "External\libsodium"; Description: "libsodium"
-Name: "External\libsodium\dynamic"; Description: "Dynamic"; Flags: exclusive
-
-; OpenSSL
-Name: "External\OpenSSL"; Description: "OpenSSL"
-Name: "External\OpenSSL\v1_0"; Description: "1.0.x"; Flags: exclusive
-Name: "External\OpenSSL\v1_0\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\OpenSSL\v1_0\static"; Description: "Static"; Flags: exclusive
-Name: "External\OpenSSL\v1_1"; Description: "1.1.x"; Flags: exclusive
-Name: "External\OpenSSL\v1_1\dynamic"; Description: "Dynamic"; Flags: exclusive
+; External dep - libmemcached-win32
+; External dep - libyaml
 
 [Files]
 ; Lua 5.1 binaries
@@ -162,180 +124,6 @@ Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-5.3.bat"; DestDir: "{app}\{#
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-admin-5.3.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua53; AfterInstall: FixPath
 
 Source: "{#ROOT}\luarocks\luaenv.bat"; DestDir: "{app}"; AfterInstall: FixPath
-
-; External deps
-
-[Files]
-; ==========================================================================
-; External dep - curl
-; ==========================================================================
-Source: "{#ROOT}\libs\curl\lic\*"; DestDir: "{app}\{#Arch}\external\lic\curl"; Flags: recursesubdirs; Components: External\curl
-Source: "{#ROOT}\libs\curl\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\curl
-
-; External dep - curl OpenSSL
-Source: "{#ROOT}\libs\curl\{#ArchName}\{#RT}\DLL Release - DLL OpenSSL\curl.exe"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\curl\ossl
-Source: "{#ROOT}\libs\curl\{#ArchName}\{#RT}\DLL Release - DLL OpenSSL\libcurl.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\curl\ossl
-Source: "{#ROOT}\libs\curl\{#ArchName}\{#RT}\DLL Release - DLL OpenSSL\libcurl.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\curl\ossl
-
-; External dep - curl WinSSPI
-Source: "{#ROOT}\libs\curl\{#ArchName}\{#RT}\DLL Release - DLL Windows SSPI\curl.exe"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\curl\sspi
-Source: "{#ROOT}\libs\curl\{#ArchName}\{#RT}\DLL Release - DLL Windows SSPI\libcurl.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\curl\sspi
-Source: "{#ROOT}\libs\curl\{#ArchName}\{#RT}\DLL Release - DLL Windows SSPI\libcurl.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\curl\sspi
-
-[Files]
-; ==========================================================================
-; External dep - expat
-; ==========================================================================
-Source: "{#ROOT}\libs\expat\lic\*"; DestDir: "{app}\{#Arch}\external\lic\Expat"; Flags: recursesubdirs; Components: External\expat
-Source: "{#ROOT}\libs\expat\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\expat
-
-; External dep - expat dynamic
-Source: "{#ROOT}\libs\expat\{#ArchName}\{#RT}\dynamic\libexpat.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: expat.lib; Components: External\expat\dynamic
-Source: "{#ROOT}\libs\expat\{#ArchName}\{#RT}\dynamic\*.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\expat\dynamic
-Source: "{#ROOT}\libs\expat\{#ArchName}\{#RT}\dynamic\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Flags: skipifsourcedoesntexist; Components: External\expat\dynamic
-
-; External dep - expat static
-Source: "{#ROOT}\libs\expat\{#ArchName}\{#RT}\static\libexpat.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: expat.lib; Components: External\expat\static
-Source: "{#ROOT}\libs\expat\{#ArchName}\{#RT}\static\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Flags: skipifsourcedoesntexist; Components: External\expat\static
-
-[Files]
-; ==========================================================================
-; External dep - iconv
-; ==========================================================================
-Source: "{#ROOT}\libs\iconv\lic\*"; DestDir: "{app}\{#Arch}\external\lic\iconv"; Flags: recursesubdirs; Components: External\iconv
-Source: "{#ROOT}\libs\iconv\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\iconv
-
-; External dep - iconv dynamic
-Source: "{#ROOT}\libs\iconv\{#ArchName}\{#RT}\dynamic\libiconv.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: iconv.lib; Components: External\iconv\dynamic
-Source: "{#ROOT}\libs\iconv\{#ArchName}\{#RT}\dynamic\*.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\iconv\dynamic
-
-; External dep - iconv static
-Source: "{#ROOT}\libs\iconv\{#ArchName}\{#RT}\static\libiconv.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: iconv.lib; Components: External\iconv\static
-
-[Files]
-; ==========================================================================
-; External dep - libffi
-; ==========================================================================
-#if Arch == "x86"
-
-Source: "{#ROOT}\libs\libffi\lic\*"; DestDir: "{app}\{#Arch}\external\lic\libffi"; Flags: recursesubdirs; Components: External\libffi
-Source: "{#ROOT}\libs\libffi\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\libffi
-
-; External dep - libffi static
-Source: "{#ROOT}\libs\libffi\{#ArchName}\{#RT}\static\libffi.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: ffi.lib; Components: External\libffi\static
-
-#endif
-
-[Files]
-; ==========================================================================
-; External dep - libuv
-; ==========================================================================
-Source: "{#ROOT}\libs\libuv\lic\*"; DestDir: "{app}\{#Arch}\external\lic\libuv"; Flags: recursesubdirs; Components: External\libuv
-Source: "{#ROOT}\libs\libuv\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\libuv
-
-; External dep - libuv dynamic
-Source: "{#ROOT}\libs\libuv\{#ArchName}\{#RT}\dynamic\libuv.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: libuv.lib; Components: External\libuv\dynamic
-Source: "{#ROOT}\libs\libuv\{#ArchName}\{#RT}\dynamic\*.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\libuv\dynamic
-Source: "{#ROOT}\libs\libuv\{#ArchName}\{#RT}\dynamic\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Flags: skipifsourcedoesntexist; Components: External\libuv\dynamic
-
-; External dep - libuv static
-Source: "{#ROOT}\libs\libuv\{#ArchName}\{#RT}\static\libuv.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: libuv.lib; Components: External\libuv\static
-Source: "{#ROOT}\libs\libuv\{#ArchName}\{#RT}\static\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Flags: skipifsourcedoesntexist; Components: External\libuv\static
-
-[Files]
-; ==========================================================================
-; External dep - pcre
-; ==========================================================================
-Source: "{#ROOT}\libs\pcre\lic\*"; DestDir: "{app}\{#Arch}\external\lic\pcre"; Flags: recursesubdirs; Components: External\pcre
-Source: "{#ROOT}\libs\pcre\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\pcre
-
-; External dep - pcre dynamic
-Source: "{#ROOT}\libs\pcre\{#ArchName}\{#RT}\dynamic\*.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\pcre\dynamic
-Source: "{#ROOT}\libs\pcre\{#ArchName}\{#RT}\dynamic\*.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\pcre\dynamic
-
-; External dep - pcre static
-Source: "{#ROOT}\libs\pcre\{#ArchName}\{#RT}\static\*.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\pcre\static
-
-[Files]
-; ==========================================================================
-; External dep - SQLite
-; ==========================================================================
-Source: "{#ROOT}\libs\SQLite\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\SQLite
-
-; External dep - SQLite dynamic
-Source: "{#ROOT}\libs\SQLite\{#ArchName}\{#RT}\dynamic\*.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\SQLite\dynamic
-Source: "{#ROOT}\libs\SQLite\{#ArchName}\{#RT}\dynamic\*.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\SQLite\dynamic
-Source: "{#ROOT}\libs\SQLite\{#ArchName}\{#RT}\dynamic\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\SQLite\dynamic
-
-; External dep - SQLite static
-Source: "{#ROOT}\libs\SQLite\{#ArchName}\{#RT}\static\*.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\SQLite\static
-Source: "{#ROOT}\libs\SQLite\{#ArchName}\{#RT}\static\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Flags: skipifsourcedoesntexist; Components: External\SQLite\static
-
-[Files]
-; ==========================================================================
-; External dep - zlib
-; ==========================================================================
-Source: "{#ROOT}\libs\zlib\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\zlib
-
-; External dep - zlib dynamic
-Source: "{#ROOT}\libs\zlib\{#ArchName}\{#RT}\dynamic\zdll.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: z.lib; Components: External\zlib\dynamic
-Source: "{#ROOT}\libs\zlib\{#ArchName}\{#RT}\dynamic\zlib1.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\zlib\dynamic
-
-; External dep - zlib static
-Source: "{#ROOT}\libs\zlib\{#ArchName}\{#RT}\static\zlib.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: z.lib; Components: External\zlib\static
-
-[Files]
-; ==========================================================================
-; External dep - ZeroMQ
-; ==========================================================================
-Source: "{#ROOT}\libs\ZeroMQ\lic\*"; DestDir: "{app}\{#Arch}\external\lic\ZeroMQ"; Flags: recursesubdirs; Components: External\ZeroMQ
-Source: "{#ROOT}\libs\ZeroMQ\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\ZeroMQ
-
-; External dep - ZeroMQ dynamic
-Source: "{#ROOT}\libs\ZeroMQ\{#ArchName}\{#RT}\dynamic\libzmq.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\ZeroMQ\dynamic
-Source: "{#ROOT}\libs\ZeroMQ\{#ArchName}\{#RT}\dynamic\libzmq.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\ZeroMQ\dynamic
-
-[Files]
-; ==========================================================================
-; External dep - libsodium
-; ==========================================================================
-Source: "{#ROOT}\libs\libsodium\lic\*"; DestDir: "{app}\{#Arch}\external\lic\libsodium"; Flags: recursesubdirs; Components: External\libsodium
-Source: "{#ROOT}\libs\libsodium\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\libsodium
-
-; External dep - libsodium dynamic
-Source: "{#ROOT}\libs\libsodium\{#ArchName}\{#RT}\dynamic\libsodium.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\libsodium\dynamic
-Source: "{#ROOT}\libs\libsodium\{#ArchName}\{#RT}\dynamic\libsodium.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\libsodium\dynamic
-
-
-[Files]
-; ==========================================================================
-; External dep - OpenSSL
-; ==========================================================================
-
-; External dep - OpenSSL 1.0 dynamic
-Source: "{#ROOT}\libs\openssl\1.0.2h\{#ArchName}\{#RT}\dynamic\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\OpenSSL\v1_0\dynamic
-Source: "{#ROOT}\libs\openssl\1.0.2h\{#ArchName}\{#RT}\dynamic\lib\*"; DestDir: "{app}\{#Arch}\external\lib"; Flags: recursesubdirs; Components: External\OpenSSL\v1_0\dynamic
-Source: "{#ROOT}\libs\openssl\1.0.2h\{#ArchName}\{#RT}\dynamic\bin\*"; DestDir: "{app}\{#Arch}\external\bin"; Flags: recursesubdirs; Components: External\OpenSSL\v1_0\dynamic
-
-; External dep - OpenSSL 1.0 static
-Source: "{#ROOT}\libs\openssl\1.0.2h\{#ArchName}\{#RT}\static\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\OpenSSL\v1_0\static
-Source: "{#ROOT}\libs\openssl\1.0.2h\{#ArchName}\{#RT}\static\lib\*"; DestDir: "{app}\{#Arch}\external\lib"; Flags: recursesubdirs; Components: External\OpenSSL\v1_0\static
-Source: "{#ROOT}\libs\openssl\1.0.2h\{#ArchName}\{#RT}\static\bin\*"; DestDir: "{app}\{#Arch}\external\bin"; Flags: recursesubdirs; Components: External\OpenSSL\v1_0\static
-
-; External dep - OpenSSL 1.1
-Source: "{#ROOT}\libs\openssl\1.1.0\lic\*"; DestDir: "{app}\{#Arch}\external\lic\openssl"; Flags: recursesubdirs; Components: External\OpenSSL\v1_1
-Source: "{#ROOT}\libs\openssl\1.1.0\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\OpenSSL\v1_1
-Source: "{#ROOT}\libs\openssl\1.1.0\{#ArchName}\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\OpenSSL\v1_1
-
-; External dep - OpenSSL 1.1 dynamic
-Source: "{#ROOT}\libs\openssl\1.1.0\{#ArchName}\{#RT}\dynamic\*.lib"; DestDir: "{app}\{#Arch}\external\lib"; Flags: recursesubdirs; Components: External\OpenSSL\v1_1\dynamic
-Source: "{#ROOT}\libs\openssl\1.1.0\{#ArchName}\{#RT}\dynamic\*.dll"; DestDir: "{app}\{#Arch}\external\bin"; Flags: recursesubdirs; Components: External\OpenSSL\v1_1\dynamic
-Source: "{#ROOT}\libs\openssl\1.1.0\{#ArchName}\{#RT}\dynamic\*.exe"; DestDir: "{app}\{#Arch}\external\bin"; Flags: recursesubdirs; Components: External\OpenSSL\v1_1\dynamic
-
-[Files]
-
-; External dep - libmemcached-win32
-; External dep - libyaml
 
 [Code]
 
