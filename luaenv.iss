@@ -68,25 +68,23 @@ Name: "Lua52\LuaService"; Description: "LuaService for Lua 5.2"
 Name: "Lua53"; Description: "Lua53"; Flags: checkablealone
 Name: "Lua53\LuaService"; Description: "LuaService for Lua 5.3"
 
-Name: "External"; Description: "External libraries"
-
 [Components]
 ; External components
+Name: "External"; Description: "External libraries"
 
 #include ROOT + "\libs\curl\setup.iss"
 #include ROOT + "\libs\expat\setup.iss"
 #include ROOT + "\libs\iconv\setup.iss"
 #include ROOT + "\libs\libffi\setup.iss"
+#include ROOT + "\libs\libmemcached-win32\setup.iss"
+#include ROOT + "\libs\libsodium\setup.iss"
 #include ROOT + "\libs\libuv\setup.iss"
+#include ROOT + "\libs\libyaml\setup.iss"
+#include ROOT + "\libs\OpenSSL\setup.iss"
 #include ROOT + "\libs\pcre\setup.iss"
 #include ROOT + "\libs\SQLite\setup.iss"
-#include ROOT + "\libs\zlib\setup.iss"
 #include ROOT + "\libs\ZeroMQ\setup.iss"
-#include ROOT + "\libs\libsodium\setup.iss"
-#include ROOT + "\libs\OpenSSL\setup.iss"
-
-; External dep - libmemcached-win32
-; External dep - libyaml
+#include ROOT + "\libs\zlib\setup.iss"
 
 [Files]
 ; Lua 5.1 binaries
