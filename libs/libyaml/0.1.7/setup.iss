@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\libyaml"; Description: "YAML"
-Name: "External\libyaml\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\libyaml\static";  Description: "Static"; Flags: exclusive
+Name: "External\libyaml\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\libyaml\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\libyaml\0.1.7\lic\*"; DestDir: "{app}\{#Arch}\external\lic\libyaml"; Flags: recursesubdirs; Components: External\libyaml

@@ -4,7 +4,7 @@
 
 [Components]
 Name: "External\ZeroMQ"; Description: "ZeroMQ"
-Name: "External\ZeroMQ\dynamic"; Description: "Dynamic"; Flags: exclusive
+Name: "External\ZeroMQ\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\ZeroMQ\lic\*"; DestDir: "{app}\{#Arch}\external\lic\ZeroMQ"; Flags: recursesubdirs; Components: External\ZeroMQ

@@ -4,7 +4,7 @@
 
 [Components]
 Name: "External\libmemcached"; Description: "libmemcached"
-Name: "External\libmemcached\dynamic"; Description: "Dynamic"; Flags: exclusive
+Name: "External\libmemcached\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\libmemcached-win32\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\libmemcached

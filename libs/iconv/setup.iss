@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\iconv"; Description: "iconv"
-Name: "External\iconv\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\iconv\static";  Description: "Static"; Flags: exclusive
+Name: "External\iconv\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\iconv\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\iconv\lic\*"; DestDir: "{app}\{#Arch}\external\lic\iconv"; Flags: recursesubdirs; Components: External\iconv

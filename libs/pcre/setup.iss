@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\pcre"; Description: "PCRE"
-Name: "External\pcre\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\pcre\static";  Description: "Static"; Flags: exclusive
+Name: "External\pcre\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\pcre\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\pcre\lic\*"; DestDir: "{app}\{#Arch}\external\lic\pcre"; Flags: recursesubdirs; Components: External\pcre

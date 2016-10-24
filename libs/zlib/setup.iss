@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\zlib"; Description: "zlib"
-Name: "External\zlib\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\zlib\static";  Description: "Static"; Flags: exclusive
+Name: "External\zlib\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\zlib\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\zlib\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\zlib

@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\curl"; Description: "cURL"
-Name: "External\curl\ossl"; Description: "DLL OpenSSL"; Flags: exclusive
-Name: "External\curl\sspi"; Description: "DLL WinSSPI"; Flags: exclusive
+Name: "External\curl\sspi"; Description: "DLL WinSSPI"; Flags: exclusive; Types: FullDynamic FullStatic
+Name: "External\curl\ossl"; Description: "DLL OpenSSL"; Flags: exclusive;
 
 [Files]
 Source: "{#ROOT}\libs\curl\lic\*"; DestDir: "{app}\{#Arch}\external\lic\curl"; Flags: recursesubdirs; Components: External\curl

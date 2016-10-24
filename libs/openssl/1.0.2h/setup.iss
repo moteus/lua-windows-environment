@@ -5,8 +5,8 @@
 [Components]
 ; OpenSSL
 Name: "External\OpenSSL\v1_0"; Description: "1.0.x"; Flags: exclusive
-Name: "External\OpenSSL\v1_0\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\OpenSSL\v1_0\static"; Description: "Static"; Flags: exclusive
+Name: "External\OpenSSL\v1_0\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\OpenSSL\v1_0\static"; Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 ; External dep - OpenSSL 1.0 dynamic

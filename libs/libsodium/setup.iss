@@ -4,7 +4,7 @@
 
 [Components]
 Name: "External\libsodium"; Description: "libsodium"
-Name: "External\libsodium\dynamic"; Description: "Dynamic"; Flags: exclusive
+Name: "External\libsodium\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\libsodium\lic\*"; DestDir: "{app}\{#Arch}\external\lic\libsodium"; Flags: recursesubdirs; Components: External\libsodium

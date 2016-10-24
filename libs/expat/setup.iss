@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\expat"; Description: "Expat"
-Name: "External\expat\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\expat\static";  Description: "Static"; Flags: exclusive
+Name: "External\expat\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\expat\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\expat\lic\*"; DestDir: "{app}\{#Arch}\external\lic\Expat"; Flags: recursesubdirs; Components: External\expat

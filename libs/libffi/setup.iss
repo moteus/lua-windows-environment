@@ -5,7 +5,7 @@
 [Components]
 #if Arch == "x86"
 Name: "External\libffi"; Description: "libffi"
-Name: "External\libffi\static";  Description: "Static"; Flags: exclusive
+Name: "External\libffi\static";  Description: "Static"; Flags: exclusive; Types: FullDynamic FullStatic
 #endif
 
 [Files]

@@ -82,12 +82,12 @@ Name: "SysInstall53\assoc\lua"; Description: ".lua"; Components: Lua53
 Name: "SysInstall53\assoc\l53"; Description: ".l53"; Components: Lua53
 
 [Components]
-Name: "Lua51"; Description: "Lua 5.1"; Flags: checkablealone
-Name: "Lua51\LuaService"; Description: "LuaService for Lua 5.1"
-Name: "Lua52"; Description: "Lua 5.2"; Flags: checkablealone
-Name: "Lua52\LuaService"; Description: "LuaService for Lua 5.2"
-Name: "Lua53"; Description: "Lua53"; Flags: checkablealone
-Name: "Lua53\LuaService"; Description: "LuaService for Lua 5.3"
+Name: "Lua51"; Description: "Lua 5.1"; Flags: checkablealone; Types: LuaOnly FullDynamic FullStatic
+Name: "Lua51\LuaService"; Description: "LuaService for Lua 5.1"; Types: LuaOnly FullDynamic FullStatic
+Name: "Lua52"; Description: "Lua 5.2"; Flags: checkablealone; Types: LuaOnly FullDynamic FullStatic
+Name: "Lua52\LuaService"; Description: "LuaService for Lua 5.2"; Types: LuaOnly FullDynamic FullStatic
+Name: "Lua53"; Description: "Lua53"; Flags: checkablealone; Types: LuaOnly FullDynamic FullStatic
+Name: "Lua53\LuaService"; Description: "LuaService for Lua 5.3"; Types: LuaOnly FullDynamic FullStatic
 
 [Components]
 ; External components
@@ -189,6 +189,12 @@ Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: string; Va
 
 Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: none; Flags: dontcreatekey uninsdeletekey
 Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: string; ValueName: ""; ValueData: "LuaEnv53{#Arch}";
+
+[Types]
+Name: "FullDynamic"; Description: "Full dynamic"
+Name: "FullStatic"; Description: "Full static"
+Name: "LuaOnly"; Description: "Lua only"
+Name: "Custom"; Description: "Custom"; Flags: iscustom
 
 [Code]
 

@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\SQLite"; Description: "SQLite"
-Name: "External\SQLite\dynamic"; Description: "Dynamic"; Flags: exclusive
-Name: "External\SQLite\static";  Description: "Static"; Flags: exclusive
+Name: "External\SQLite\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
+Name: "External\SQLite\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
 
 [Files]
 Source: "{#ROOT}\libs\SQLite\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\SQLite
