@@ -1,0 +1,19 @@
+version: 0.0.1.{build}
+
+# Start builds on tags only (GitHub and BitBucket)
+skip_non_tags: true
+
+before_build:
+  - choco install -y InnoSetup
+  - set PATH="C:\Program Files (x86)\Inno Setup 5";%PATH%
+
+build_script:
+  - iscc luaenv.iss /DArch=x86
+  - iscc luaenv.iss /DArch=x64
+
+artifacts:
+  - path: LuaEnv-x86*.exe
+    name: LuaEnv-x86
+
+  - path: LuaEnv-x64*.exe
+    name: LuaEnv-x64
