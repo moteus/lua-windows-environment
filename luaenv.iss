@@ -64,11 +64,22 @@ ArchitecturesInstallIn64BitMode={#Arch}
 #endif
 
 ChangesEnvironment=yes
+ChangesAssociations=yes
 
 [Tasks]
 Name: "SysInstall51"; Description: "Register Lua 5.1 in system"; Components: Lua51
+
+Name: "SysInstall51\assoc"; Description: "Associate file extensions"; Components: Lua51
+Name: "SysInstall51\assoc\lua"; Description: ".lua"; Components: Lua51
+Name: "SysInstall51\assoc\l51"; Description: ".l51"; Components: Lua51
 Name: "SysInstall52"; Description: "Register Lua 5.2 in system"; Components: Lua52
+Name: "SysInstall52\assoc"; Description: "Associate file extensions"; Components: Lua52
+Name: "SysInstall52\assoc\lua"; Description: ".lua"; Components: Lua52
+Name: "SysInstall52\assoc\l52"; Description: ".l52"; Components: Lua52
 Name: "SysInstall53"; Description: "Register Lua 5.3 in system"; Components: Lua53
+Name: "SysInstall53\assoc"; Description: "Associate file extensions"; Components: Lua53
+Name: "SysInstall53\assoc\lua"; Description: ".lua"; Components: Lua53
+Name: "SysInstall53\assoc\l53"; Description: ".l53"; Components: Lua53
 
 [Components]
 Name: "Lua51"; Description: "Lua 5.1"; Flags: checkablealone
@@ -80,21 +91,21 @@ Name: "Lua53\LuaService"; Description: "LuaService for Lua 5.3"
 
 [Components]
 ; External components
-; Name: "External"; Description: "External libraries"
+Name: "External"; Description: "External libraries"
 
-; #include ROOT + "\libs\curl\setup.iss"
-; #include ROOT + "\libs\expat\setup.iss"
-; #include ROOT + "\libs\iconv\setup.iss"
-; #include ROOT + "\libs\libffi\setup.iss"
-; #include ROOT + "\libs\libmemcached-win32\setup.iss"
-; #include ROOT + "\libs\libsodium\setup.iss"
-; #include ROOT + "\libs\libuv\setup.iss"
-; #include ROOT + "\libs\libyaml\setup.iss"
-; #include ROOT + "\libs\OpenSSL\setup.iss"
-; #include ROOT + "\libs\pcre\setup.iss"
-; #include ROOT + "\libs\SQLite\setup.iss"
-; #include ROOT + "\libs\ZeroMQ\setup.iss"
-; #include ROOT + "\libs\zlib\setup.iss"
+#include ROOT + "\libs\curl\setup.iss"
+#include ROOT + "\libs\expat\setup.iss"
+#include ROOT + "\libs\iconv\setup.iss"
+#include ROOT + "\libs\libffi\setup.iss"
+#include ROOT + "\libs\libmemcached-win32\setup.iss"
+#include ROOT + "\libs\libsodium\setup.iss"
+#include ROOT + "\libs\libuv\setup.iss"
+#include ROOT + "\libs\libyaml\setup.iss"
+#include ROOT + "\libs\OpenSSL\setup.iss"
+#include ROOT + "\libs\pcre\setup.iss"
+#include ROOT + "\libs\SQLite\setup.iss"
+#include ROOT + "\libs\ZeroMQ\setup.iss"
+#include ROOT + "\libs\zlib\setup.iss"
 
 [Files]
 ; Lua 5.1 binaries
@@ -134,6 +145,8 @@ Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-admin-5.3.bat"; DestDir: "{a
 Source: "{#ROOT}\luarocks\luaenv.bat"; DestDir: "{app}"; AfterInstall: FixPath
 
 [Registry]
+; Lua environment
+
 Root: HKLM; Tasks: SysInstall51; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.1\systree\share\lua\5.1\?.lua;{app}\{#Arch}\5.1\systree\share\lua\5.1\?\init.lua"
 Root: HKLM; Tasks: SysInstall51; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.1\systree\lib\lua\5.1\?.dll"
 
@@ -142,6 +155,40 @@ Root: HKLM; Tasks: SysInstall52; Subkey: "{#SysEnvPath}"; ValueType: expandsz; V
 
 Root: HKLM; Tasks: SysInstall53; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH_5_3"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.3\systree\share\lua\5.3\?.lua;{app}\{#Arch}\5.3\systree\share\lua\5.3\?\init.lua"
 Root: HKLM; Tasks: SysInstall53; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH_5_3"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.3\systree\lib\lua\5.3\?.dll"
+
+[Registry]
+; File association
+
+; Register applicatins
+
+Root: HKCR; Tasks: SysInstall51\assoc; Subkey: "LuaEnv51{#Arch}"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall51\assoc; Subkey: "LuaEnv51{#Arch}\Shell\Open\Command"; ValueType: expandsz; ValueName: ""; ValueData: "{app}\{#Arch}\5.1\bin\lua51.exe ""%1"" %*";
+
+Root: HKCR; Tasks: SysInstall52\assoc; Subkey: "LuaEnv52{#Arch}"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall52\assoc; Subkey: "LuaEnv52{#Arch}\Shell\Open\Command"; ValueType: expandsz; ValueName: ""; ValueData: "{app}\{#Arch}\5.1\bin\lua51.exe ""%1"" %*";
+
+Root: HKCR; Tasks: SysInstall53\assoc; Subkey: "LuaEnv53{#Arch}"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall53\assoc; Subkey: "LuaEnv53{#Arch}\Shell\Open\Command"; ValueType: expandsz; ValueName: ""; ValueData: "{app}\{#Arch}\5.1\bin\lua51.exe ""%1"" %*";
+
+; Make associations
+
+Root: HKCR; Tasks: SysInstall51\assoc\l51; Subkey: ".l51"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall51\assoc\l51; Subkey: ".l51"; ValueType: string; ValueName: ""; ValueData: "LuaEnv51{#Arch}";
+
+Root: HKCR; Tasks: SysInstall52\assoc\l52; Subkey: ".l52"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall52\assoc\l52; Subkey: ".l52"; ValueType: string; ValueName: ""; ValueData: "LuaEnv52{#Arch}";
+
+Root: HKCR; Tasks: SysInstall53\assoc\l53; Subkey: ".l53"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall53\assoc\l53; Subkey: ".l53"; ValueType: string; ValueName: ""; ValueData: "LuaEnv53{#Arch}";
+
+Root: HKCR; Tasks: SysInstall51\assoc\lua; Subkey: ".lua"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall51\assoc\lua; Subkey: ".lua"; ValueType: string; ValueName: ""; ValueData: "LuaEnv51{#Arch}";
+
+Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: string; ValueName: ""; ValueData: "LuaEnv52{#Arch}";
+
+Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: none; Flags: dontcreatekey uninsdeletekey
+Root: HKCR; Tasks: SysInstall52\assoc\lua; Subkey: ".lua"; ValueType: string; ValueName: ""; ValueData: "LuaEnv53{#Arch}";
 
 [Code]
 
@@ -175,85 +222,100 @@ begin
   else Result := false
 end;
 
-procedure EnvRemovePath(Path: string);
+procedure EnvRemove(Name, Value: string);
 var
-  Paths: string;
+  Values: string;
 begin
-  if not RegQueryStringValue(HKEY_LOCAL_MACHINE, '{#SysEnvPath}', 'PATH', Paths) then begin
-    Log('[REMOVE] PATH not found');
+  Value := ExpandConstant(Value);
+
+  if not RegQueryStringValue(HKEY_LOCAL_MACHINE, '{#SysEnvPath}', Name, Values) then begin
+    Log(Format('[REMOVE] %s not found', [Name]));
     exit;
   end;
 
-  Log(Format('[REMOVE] PATH is [%s]', [Paths]));
+  Log(Format('[REMOVE] %s is [%s]', [Name, Values]));
 
-  if not RemoveSepSubstr(Paths, Path, ';') then begin
-    Log(Format('[REMOVE] Path [%s] not found in PATH', [Path]));
+  if not RemoveSepSubstr(Values, Value, ';') then begin
+    Log(Format('[REMOVE] value [%s] not found in %s', [Value, Name]));
     exit;
   end;
 
-  Log(Format('[REMOVE] Path [%s] removed from PATH => [%s]', [Path, Paths]));
+  Log(Format('[REMOVE] value [%s] removed from %s => [%s]', [Value, Name, Values]));
 
-  if not RegWriteStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', Paths) then begin
-    Log(Format('Error writing PATH: [%s]', [SysErrorMessage(DLLGetLastError())]));
+  if not RegWriteStringValue(HKEY_LOCAL_MACHINE, '{#SysEnvPath}', Name, Values) then begin
+    Log(Format('Error writing %s: [%s]', [Name, SysErrorMessage(DLLGetLastError())]));
     exit;
   end;
 
-  Log('[REMOVE] PATH written');
+  Log(Format('[REMOVE] %s written', [Name]));
 end;
 
-procedure EnvAppendPath(Path: string);
+procedure EnvAppend(Name, Value: string);
 var
-  Paths: string;
+  Values: string;
 begin
-  if not RegQueryStringValue(HKEY_LOCAL_MACHINE, '{#SysEnvPath}', 'PATH', Paths) then begin
-    Log('[APPEND] PATH not found');
+  Value := ExpandConstant(Value);
+
+  if not RegQueryStringValue(HKEY_LOCAL_MACHINE, '{#SysEnvPath}', Name, Values) then begin
+    Log(Format('[APPEND] %s not found', [Name]));
+    Values := '';
+  end;
+
+  Log(Format('[APPEND] %s is [%s]', [Name, Values]));
+
+  if RemoveSepSubstr(Values, Value, ';') then begin
+    Log(Format('[APPEND] value [%s] already found in %s', [Value, Name]));
     exit;
   end;
 
-  Log(Format('[APPEND] PATH is [%s]', [Paths]));
+  Log(Format('[APPEND] value [%s] append to %s => [%s]', [Value, Name, Values]));
 
-  if RemoveSepSubstr(Paths, Path, ';') then begin
-    Log(Format('[APPEND] Path [%s] already found in PATH', [Path]));
+  Values := Values + ';' + Value;
+
+  if not RegWriteStringValue(HKEY_LOCAL_MACHINE, '{#SysEnvPath}', Name, Values) then begin
+    Log(Format('Error writing %s: [%s]', [Name, SysErrorMessage(DLLGetLastError())]));
     exit;
   end;
 
-  Paths := Paths + ';' + Path;
-
-  if not RegWriteStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', Paths) then begin
-    Log(Format('[APPEND] Error writing PATH: [%s]', [SysErrorMessage(DLLGetLastError())]));
-    exit;
-  end;
-
-  Log('[APPEND] PATH written');
+  Log(Format('[REMOVE] %s written', [Name]));
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssPostInstall then begin
-    EnvAppendPath(ExpandConstant('{app}'));
+    EnvAppend('PATH', '{app}');
 
     if IsTaskSelected('SysInstall51') 
       or IsTaskSelected('SysInstall52') 
       or IsTaskSelected('SysInstall53') 
     then begin
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\LuaRocks'));
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\external\bin'));
+      EnvAppend('PATH', '{app}\{#Arch}\LuaRocks');
+      EnvAppend('PATH', '{app}\{#Arch}\external\bin');
     end;
 
     if IsTaskSelected('SysInstall51') then begin
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\5.1\bin'));
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\5.1\systree\bin'));
+      EnvAppend('PATH', '{app}\{#Arch}\5.1\bin');
+      EnvAppend('PATH', '{app}\{#Arch}\5.1\systree\bin');
     end;
 
     if IsTaskSelected('SysInstall52') then begin
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\5.2\bin'));
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\5.2\systree\bin'));
+      EnvAppend('PATH', '{app}\{#Arch}\5.2\bin');
+      EnvAppend('PATH', '{app}\{#Arch}\5.2\systree\bin');
     end;
 
     if IsTaskSelected('SysInstall53') then begin
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\5.3\bin'));
-      EnvAppendPath(ExpandConstant('{app}\{#Arch}\5.3\systree\bin'));
+      EnvAppend('PATH', '{app}\{#Arch}\5.3\bin');
+      EnvAppend('PATH', '{app}\{#Arch}\5.3\systree\bin');
     end;
+
+    if IsTaskSelected('SysInstall51\assoc\lua')
+      or IsTaskSelected('SysInstall52\assoc\lua')
+      or IsTaskSelected('SysInstall53\assoc\lua')
+    then EnvAppend('PATHEXT', '.LUA');
+
+    if IsTaskSelected('SysInstall51\assoc\l51') then EnvAppend('PATHEXT', '.L51');
+    if IsTaskSelected('SysInstall51\assoc\l52') then EnvAppend('PATHEXT', '.L52');
+    if IsTaskSelected('SysInstall51\assoc\l53') then EnvAppend('PATHEXT', '.L53');
 
   end
 end;
@@ -261,14 +323,19 @@ end;
 procedure CurUninstallStepChanged(CurStep: TUninstallStep);
 begin
   if CurStep = usUninstall then begin
-    EnvRemovePath(ExpandConstant('{app}'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\LuaRocks'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\external\bin'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\5.1\bin'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\5.1\systree\bin'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\5.2\bin'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\5.2\systree\bin'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\5.3\bin'));
-    EnvRemovePath(ExpandConstant('{app}\{#Arch}\5.3\systree\bin'));
+    EnvRemove('PATH', '{app}');
+    EnvRemove('PATH', '{app}\{#Arch}\LuaRocks');
+    EnvRemove('PATH', '{app}\{#Arch}\external\bin');
+    EnvRemove('PATH', '{app}\{#Arch}\5.1\bin');
+    EnvRemove('PATH', '{app}\{#Arch}\5.1\systree\bin');
+    EnvRemove('PATH', '{app}\{#Arch}\5.2\bin');
+    EnvRemove('PATH', '{app}\{#Arch}\5.2\systree\bin');
+    EnvRemove('PATH', '{app}\{#Arch}\5.3\bin');
+    EnvRemove('PATH', '{app}\{#Arch}\5.3\systree\bin');
+
+    EnvRemove('PATHEXT', '.LUA');
+    EnvRemove('PATHEXT', '.L51');
+    EnvRemove('PATHEXT', '.L52');
+    EnvRemove('PATHEXT', '.L53');
   end
 end;
