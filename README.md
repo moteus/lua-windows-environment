@@ -1,10 +1,15 @@
+
+[![Download x86](https://img.shields.io/badge/Download-x86-blue.svg)](https://ci.appveyor.com/api/projects/moteus/lua-windows-environment/artifacts/LuaEnv-x86-0.1.0.exe?branch=master)
+[![Download x64](https://img.shields.io/badge/Download-x64-blue.svg)](https://ci.appveyor.com/api/projects/moteus/lua-windows-environment/artifacts/LuaEnv-x64-0.1.0.exe?branch=master)
+
 This is my basic installation which allows me easy switch beetween Lua versions.
 To be able install binary rocks also need install MS compiler.
-You can install as part of Microsoft Visual Studio or as part Microsoft SDK.
+You can install as part of Microsoft Visual Studio or as part of Microsoft SDK
+or as part of Microsoft Build Tools.
 
 ![Screenshot](image/luaver.gif)
 
-###install
+###Manual install
  * Copy `luarocks` directory on `c:` drive.
  * Copy Lua binaries/lib/include files to appropriate folder.
     e.g. If you want install Lua 5.3 win MSVC 10 for x86
