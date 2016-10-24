@@ -147,14 +147,14 @@ Source: "{#ROOT}\luarocks\luaenv.bat"; DestDir: "{app}"; AfterInstall: FixPath
 [Registry]
 ; Lua environment
 
-Root: HKLM; Tasks: SysInstall51; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.1\systree\share\lua\5.1\?.lua;{app}\{#Arch}\5.1\systree\share\lua\5.1\?\init.lua"
-Root: HKLM; Tasks: SysInstall51; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.1\systree\lib\lua\5.1\?.dll"
+Root: HKLM; Tasks: SysInstall51; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.1\systree\share\lua\5.1\?.lua;{app}\{#Arch}\5.1\systree\share\lua\5.1\?\init.lua"; Flags: uninsdeletevalue
+Root: HKLM; Tasks: SysInstall51; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.1\systree\lib\lua\5.1\?.dll"; Flags: uninsdeletevalue
 
-Root: HKLM; Tasks: SysInstall52; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH_5_2"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.2\systree\share\lua\5.2\?.lua;{app}\{#Arch}\5.2\systree\share\lua\5.2\?\init.lua"
-Root: HKLM; Tasks: SysInstall52; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH_5_2"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.2\systree\lib\lua\5.2\?.dll"
+Root: HKLM; Tasks: SysInstall52; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH_5_2"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.2\systree\share\lua\5.2\?.lua;{app}\{#Arch}\5.2\systree\share\lua\5.2\?\init.lua"; Flags: uninsdeletevalue
+Root: HKLM; Tasks: SysInstall52; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH_5_2"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.2\systree\lib\lua\5.2\?.dll"; Flags: uninsdeletevalue
 
-Root: HKLM; Tasks: SysInstall53; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH_5_3"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.3\systree\share\lua\5.3\?.lua;{app}\{#Arch}\5.3\systree\share\lua\5.3\?\init.lua"
-Root: HKLM; Tasks: SysInstall53; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH_5_3"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.3\systree\lib\lua\5.3\?.dll"
+Root: HKLM; Tasks: SysInstall53; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_PATH_5_3"; ValueData: "!\?.lua;!\?\init.lua;?.lua;?\init.lua;{app}\{#Arch}\5.3\systree\share\lua\5.3\?.lua;{app}\{#Arch}\5.3\systree\share\lua\5.3\?\init.lua"; Flags: uninsdeletevalue
+Root: HKLM; Tasks: SysInstall53; Subkey: "{#SysEnvPath}"; ValueType: expandsz; ValueName: "LUA_CPATH_5_3"; ValueData: "!\?.dll;?.dll;{app}\{#Arch}\5.3\systree\lib\lua\5.3\?.dll"; Flags: uninsdeletevalue
 
 [Registry]
 ; File association
