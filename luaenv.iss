@@ -86,9 +86,9 @@ Name: "Assoc\lua\v51"; Description: "Lua 5.1"; Components: Lua51; Flags: exclusi
 Name: "Assoc\lua\v52"; Description: "Lua 5.2"; Components: Lua52; Flags: exclusive
 Name: "Assoc\lua\v53"; Description: "Lua 5.3"; Components: Lua53; Flags: exclusive
 
-Name: "Assoc\l51"; Description: ".L51"
-Name: "Assoc\l52"; Description: ".L52"
-Name: "Assoc\l53"; Description: ".L53"
+Name: "Assoc\l51"; Description: ".L51"; Components: Lua51
+Name: "Assoc\l52"; Description: ".L52"; Components: Lua52
+Name: "Assoc\l53"; Description: ".L53"; Components: Lua53
 
 [Components]
 Name: "Lua51"; Description: "Lua 5.1"; Flags: checkablealone; Types: LuaOnly FullDynamic FullStatic
