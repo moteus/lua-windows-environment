@@ -12,6 +12,12 @@
 
 #endif
 
+#if RT == "v140"
+#define RTName "VCRUNTIME140"
+#elif RT == "v100"
+#define RTName "MSVCR100"
+#endif
+
 #if Arch == "x86"
 #define ArchName  "Win32"
 #else
@@ -207,6 +213,10 @@ procedure FixPath();
 begin
   ReplaceStringInCurFile('C:\LuaRocks', '{app}');
   ReplaceStringInCurFile('c:\luarocks', '{app}');
+
+  // Fix runtime name in config-*.lua
+  ReplaceStringInCurFile('VCRUNTIME140', '{#RTName}');
+  ReplaceStringInCurFile('MSVCR100',     '{#RTName}');
 end;
 
 [Code]
