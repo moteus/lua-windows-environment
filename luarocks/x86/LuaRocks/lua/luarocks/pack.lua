@@ -97,7 +97,7 @@ local function do_pack_binary_rock(name, version, tree)
    if not name then
       return nil, version
    end
-   
+
    local root = path.root_dir(repo_url)
    local prefix = path.install_dir(name, version, root)
    if not fs.exists(prefix) then
@@ -184,7 +184,7 @@ function pack.command(flags, arg, version)
    if arg:match(".*%.rockspec") then
       file, err = pack.pack_source_rock(arg)
    else
-      file, err = do_pack_binary_rock(arg, version, flags["tree"])
+      file, err = do_pack_binary_rock(arg:lower(), version, flags["tree"])
    end
    if err then
       return nil, err

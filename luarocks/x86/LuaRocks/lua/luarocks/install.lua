@@ -170,6 +170,8 @@ function install.command(flags, name, version)
          local ok, err = remove.remove_other_versions(name, version, flags["force"], flags["force-fast"])
          if not ok then util.printerr(err) end
       end
+
+      manif.check_dependencies(nil, deps.get_deps_mode(flags))
       return name, version
    else
       local search = require("luarocks.search")
