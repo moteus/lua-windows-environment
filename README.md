@@ -9,7 +9,7 @@ or as part of Microsoft Build Tools.
 
 ![Screenshot](image/luaver.gif)
 
-###Manual install
+### Manual install
  * Copy `luarocks` directory on `c:` drive.
  * Copy Lua binaries/lib/include files to appropriate folder.
     e.g. If you want install Lua 5.3 win MSVC 10 for x86
@@ -30,7 +30,7 @@ or as part of Microsoft Build Tools.
    - put `*.h` files to `external/include` directory
    - put `*.dll` files to `external/bin` directory
 
-###Notes about path
+### Notes about path
   To change path from `C:\LuaRocks` need change path in
   * `\luarocks\luaenv.bat`
   * `\luarocks\*\LuaRocks\config-*.lua`
