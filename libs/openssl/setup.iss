@@ -10,3 +10,5 @@ Name: "External\OpenSSL"; Description: "OpenSSL"
 #include ".\1.0.2k\setup.iss"
 
 #include ".\1.1.0\setup.iss"
+
+#include ".\1.1.0e\setup.iss"
