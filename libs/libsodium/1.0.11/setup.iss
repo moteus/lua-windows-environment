@@ -1,9 +1,9 @@
 ; ==========================================================================
-; External dep - libsodium
+; External dep - libsodium 1.0.11
 ; ==========================================================================
 
 [Components]
-Name: "External\libsodium\v_1_0_11"; Description: "libsodium"
+Name: "External\libsodium\v_1_0_11"; Description: "1.0.11"; Flags: exclusive;
 Name: "External\libsodium\v_1_0_11\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic FullStatic
 
 [Files]
