@@ -1,0 +1,1 @@
+Some fixed rockspecs to make them works on windows
