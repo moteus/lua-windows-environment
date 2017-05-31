@@ -4,8 +4,8 @@
 
 [Components]
 Name: "External\libuv\v_1_11_0"; Description: "1.11.0"; Flags: exclusive
-Name: "External\libuv\v_1_11_0\dynamic"; Description: "Dynamic"; Flags: exclusive; Types: FullDynamic
-Name: "External\libuv\v_1_11_0\static";  Description: "Static"; Flags: exclusive; Types: FullStatic
+Name: "External\libuv\v_1_11_0\dynamic"; Description: "Dynamic"; Flags: exclusive
+Name: "External\libuv\v_1_11_0\static";  Description: "Static"; Flags: exclusive
 
 [Files]
 Source: "{#ROOT}\libs\libuv\1.11.0\lic\*"; DestDir: "{app}\{#Arch}\external\lic\libuv"; Flags: recursesubdirs; Components: External\libuv\v_1_11_0
