@@ -116,6 +116,7 @@ Name: "External"; Description: "External libraries"
 #include ROOT + "\libs\SQLite\setup.iss"
 #include ROOT + "\libs\ZeroMQ\setup.iss"
 #include ROOT + "\libs\zlib\setup.iss"
+#include ROOT + "\libs\zip\setup.iss"
 
 [Files]
 ; Lua 5.1 binaries

@@ -11,6 +11,6 @@ Source: "{#ROOT}\libs\nanomsg\1.0.0\lic\*"; DestDir: "{app}\{#Arch}\external\lic
 Source: "{#ROOT}\libs\nanomsg\1.0.0\include\*"; DestDir: "{app}\{#Arch}\external\include"; Flags: recursesubdirs; Components: External\nanomsg\v_1_0_0
 
 ; External dep - nanomsg dynamic
-Source: "{#ROOT}\libs\nanomsg\1.0.0\{#ArchName}\{#RT}\dynamic\nanomsg.lib"; DestDir: "{app}\{#Arch}\external\lib"; DestName: nanomsg.lib; Components: External\nanomsg\v_1_0_0\dynamic
+Source: "{#ROOT}\libs\nanomsg\1.0.0\{#ArchName}\{#RT}\dynamic\nanomsg.lib"; DestDir: "{app}\{#Arch}\external\lib"; Components: External\nanomsg\v_1_0_0\dynamic
 Source: "{#ROOT}\libs\nanomsg\1.0.0\{#ArchName}\{#RT}\dynamic\nanomsg.dll"; DestDir: "{app}\{#Arch}\external\bin"; Components: External\nanomsg\v_1_0_0\dynamic
 
