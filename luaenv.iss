@@ -117,6 +117,7 @@ Name: "External"; Description: "External libraries"
 #include ROOT + "\libs\ZeroMQ\setup.iss"
 #include ROOT + "\libs\zlib\setup.iss"
 #include ROOT + "\libs\zip\setup.iss"
+#include ROOT + "\libs\zzip\setup.iss"
 
 [Files]
 ; Lua 5.1 binaries
