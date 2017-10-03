@@ -5,6 +5,8 @@
 [Components]
 Name: "External\libuv"; Description: "libuv"
 
+#include ".\1.15.0\setup.iss"
+
 #include ".\1.12.0\setup.iss"
 
 #include ".\1.11.0\setup.iss"
