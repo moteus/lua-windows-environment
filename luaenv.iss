@@ -73,6 +73,10 @@ ChangesEnvironment=yes
 ChangesAssociations=yes
 
 [Tasks]
+Name: "OpenSSLConf"; Description: "Install OpenSSL configuration file"; Flags: unchecked; Components: External\OpenSSL
+Name: "OpenSSLConf\default"; Description: "C:\OpenSSL"; Flags: exclusive unchecked; Components: External\OpenSSL
+
+[Tasks]
 Name: "Register"; Description: "Register Lua in system"; Components: Lua51 Lua52 Lua53
 Name: "Register\v51"; Description: "Lua 5.1"; Components: Lua51
 Name: "Register\v52"; Description: "Lua 5.2"; Components: Lua52
