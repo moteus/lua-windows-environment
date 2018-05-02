@@ -5,7 +5,7 @@
 [Components]
 Name: "External\libuv"; Description: "libuv"
 
-#define LIBUV_DEFAULT_VERSION "1.16.1"
+#define LIBUV_DEFAULT_VERSION "1.20.2"
 
 ; ==========================================================================
 #define LIBUV_VERSION "1.9.1"
@@ -33,6 +33,12 @@ Name: "External\libuv"; Description: "libuv"
 
 ; ==========================================================================
 #define LIBUV_VERSION "1.16.1"
+; ==========================================================================
+
+#include ".\setup_ver.iss"
+
+; ==========================================================================
+#define LIBUV_VERSION "1.20.2"
 ; ==========================================================================
 
 #include ".\setup_ver.iss"

@@ -9,7 +9,7 @@
 
 [Components]
 Name: "External\curl\{#CURL_VERSION_NAME}"; Description: "{#CURL_VERSION}"; Flags: exclusive
-Name: "External\curl\{#CURL_VERSION_NAME}\sspi"; Description: "DLL WinSSPI"; Flags: exclusive; Types: FullDynamic FullStatic
+Name: "External\curl\{#CURL_VERSION_NAME}\sspi"; Description: "DLL WinSSPI"; Flags: exclusive;
 Name: "External\curl\{#CURL_VERSION_NAME}\ossl_1_0"; Description: "DLL OpenSSL (1.0.x) "; Flags: exclusive;
 Name: "External\curl\{#CURL_VERSION_NAME}\ossl_1_1"; Description: "DLL OpenSSL (1.1.x) "; Flags: exclusive;
 
