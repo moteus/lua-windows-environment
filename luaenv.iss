@@ -1,5 +1,5 @@
 #ifndef Arch
-#define Arch       "x86"
+#define Arch       "x64"
 #endif
 
 #ifndef RT
@@ -141,8 +141,8 @@ Source: "{#ROOT}\Lua\5.3\include\*"; DestDir: "{app}\{#Arch}\5.3\include"; Compo
 Source: "{#ROOT}\LuaService\{#ArchName}\{#RT}\5.3\*"; DestDir: "{app}\{#Arch}\5.3\bin"; Components: Lua53\LuaService
 
 ; LuaRocks
-Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\*"; DestDir: "{app}\{#Arch}\LuaRocks"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; Excludes: "config-5.*.lua luarocks-5.*.bat luarocks-admin-5.*.bat site_config.lua"
-Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\lua\luarocks\site_config.lua"; DestDir: "{app}\{#Arch}\LuaRocks\lua\luarocks"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; AfterInstall: FixPath
+Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\*"; DestDir: "{app}\{#Arch}\LuaRocks"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; Excludes: "config-5.*.lua,luarocks-5.*.bat,luarocks-admin-5.*.bat,hardcoded.lua"
+Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\lua\luarocks\core\hardcoded.lua"; DestDir: "{app}\{#Arch}\LuaRocks\lua\luarocks\core"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; AfterInstall: FixPath
 
 ; LuaRocks Lua 5.1 config
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\config-5.1.lua"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua51; AfterInstall: FixPath
@@ -212,6 +212,11 @@ Name: "FullDynamic"; Description: "Full dynamic"
 Name: "FullStatic"; Description: "Full static"
 Name: "LuaOnly"; Description: "Lua only"
 Name: "Custom"; Description: "Custom"; Flags: iscustom
+
+[Dirs]
+Name: "{app}\{#Arch}\5.1\systree"; Components: Lua51
+Name: "{app}\{#Arch}\5.2\systree"; Components: Lua52
+Name: "{app}\{#Arch}\5.3\systree"; Components: Lua53
 
 [Code]
 

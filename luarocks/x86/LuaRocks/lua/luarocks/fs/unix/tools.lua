@@ -4,9 +4,9 @@ local tools = {}
 
 local fs = require("luarocks.fs")
 local dir = require("luarocks.dir")
-local cfg = require("luarocks.cfg")
+local cfg = require("luarocks.core.cfg")
 
-local vars = cfg.variables
+local vars = setmetatable({}, { __index = function(_,k) return cfg.variables[k] end })
 
 --- Adds prefix to command to make it run from a directory.
 -- @param directory string: Path to a directory.
@@ -51,7 +51,8 @@ end
 --- Copy a file.
 -- @param src string: Pathname of source
 -- @param dest string: Pathname of destination
--- @param perm string or nil: Permissions for destination file,
+-- @param perm string ("read" or "exec") or nil: Permissions for destination 
+-- file or nil to use the source permissions
 -- @return boolean or (boolean, string): true on success, false on failure,
 -- plus an error message.
 function tools.copy(src, dest, perm)
@@ -61,7 +62,7 @@ function tools.copy(src, dest, perm)
          if fs.is_dir(dest) then
             dest = dir.path(dest, dir.base_name(src))
          end
-         if fs.chmod(dest, perm) then
+         if fs.set_permissions(dest, perm, "all") then
             return true
          else
             return false, "Failed setting permissions of "..dest
@@ -122,17 +123,56 @@ end
 -- @param zipfile string: pathname of .zip archive to be created.
 -- @param ... Filenames to be stored in the archive are given as
 -- additional arguments.
--- @return boolean: true on success, false on failure.
+-- @return boolean: true on success, nil and error message on failure.
 function tools.zip(zipfile, ...)
-   return fs.execute(vars.ZIP.." -r", zipfile, ...)
+   if fs.execute_quiet(vars.ZIP.." -r", zipfile, ...) then
+      return true
+   else
+      return nil, "failed compressing " .. zipfile
+   end
 end
 
 --- Uncompress files from a .zip archive.
 -- @param zipfile string: pathname of .zip archive to be extracted.
--- @return boolean: true on success, false on failure.
+-- @return boolean: true on success, nil and error message on failure.
 function tools.unzip(zipfile)
    assert(zipfile)
-   return fs.execute_quiet(vars.UNZIP, zipfile)
+   if fs.execute_quiet(vars.UNZIP, zipfile) then
+      return true
+   else
+      return nil, "failed extracting " .. zipfile
+   end
+end
+
+local function uncompress(default_ext, program, infile, outfile)
+   assert(type(infile) == "string")
+   assert(outfile == nil or type(outfile) == "string")
+   if not outfile then
+      outfile = infile:gsub("%."..default_ext.."$", "")
+   end
+   if fs.execute(fs.Q(program).." -c "..fs.Q(infile).." > "..fs.Q(outfile)) then
+      return true
+   else
+      return nil, "failed extracting " .. infile
+   end
+end
+
+--- Uncompresses a .gz file.
+-- @param infile string: pathname of .gz file to be extracted.
+-- @param outfile string or nil: pathname of output file to be produced.
+-- If not given, name is derived from input file.
+-- @return boolean: true on success; nil and error message on failure.
+function tools.gunzip(infile, outfile)
+   return uncompress("gz", "gunzip", infile, outfile)
+end
+
+--- Uncompresses a .bz2 file.
+-- @param infile string: pathname of .bz2 file to be extracted.
+-- @param outfile string or nil: pathname of output file to be produced.
+-- If not given, name is derived from input file.
+-- @return boolean: true on success; nil and error message on failure.
+function tools.bunzip2(infile, outfile)
+   return uncompress("bz2", "bunzip2", infile, outfile)
 end
 
 --- Test is file/directory exists
@@ -159,51 +199,66 @@ function tools.is_file(file)
    return fs.execute(vars.TEST, "-f", file)
 end
 
-function tools.chmod(pathname, mode)
-   if mode then 
-      return fs.execute(vars.CHMOD, mode, pathname)
-   else
-      return false
+do
+   local function rwx_to_octal(rwx)
+      return (rwx:match "r" and 4 or 0)
+         + (rwx:match "w" and 2 or 0)
+         + (rwx:match "x" and 1 or 0)
+   end
+   local umask_cache
+   function tools._unix_umask()
+      if umask_cache then
+         return umask_cache
+      end
+      local fd = assert(io.popen("umask -S"))
+      local umask = assert(fd:read("*a"))
+      fd:close()
+      local u, g, o = umask:match("u=([rwx]*),g=([rwx]*),o=([rwx]*)")
+      if not u then
+         error("invalid umask result")
+      end
+      umask_cache = string.format("%d%d%d",
+         7 - rwx_to_octal(u),
+         7 - rwx_to_octal(g),
+         7 - rwx_to_octal(o))
+      return umask_cache
    end
 end
 
---- Unpack an archive.
--- Extract the contents of an archive, detecting its format by
--- filename extension.
--- @param archive string: Filename of archive.
--- @return boolean or (boolean, string): true on success, false and an error message on failure.
-function tools.unpack_archive(archive)
-   assert(type(archive) == "string")
+--- Set permissions for file or directory
+-- @param filename string: filename whose permissions are to be modified
+-- @param mode string ("read" or "exec"): permissions to set
+-- @param scope string ("user" or "all"): the user(s) to whom the permission applies
+-- @return boolean or (boolean, string): true on success, false on failure,
+-- plus an error message
+function tools.set_permissions(filename, mode, scope)
+   assert(filename and mode and scope)
 
-   local pipe_to_tar = " | "..vars.TAR.." -xf -"
-
-   if not cfg.verbose then
-      pipe_to_tar = " 2> /dev/null"..fs.quiet(pipe_to_tar)
-   end
-
-   local ok
-   if archive:match("%.tar%.gz$") or archive:match("%.tgz$") then
-      ok = fs.execute_string(vars.GUNZIP.." -c "..fs.Q(archive)..pipe_to_tar)
-   elseif archive:match("%.tar%.bz2$") then
-      ok = fs.execute_string(vars.BUNZIP2.." -c "..fs.Q(archive)..pipe_to_tar)
-   elseif archive:match("%.zip$") then
-      ok = fs.execute_quiet(vars.UNZIP, archive)
-   elseif archive:match("%.lua$") or archive:match("%.c$") then
-      -- Ignore .lua and .c files; they don't need to be extracted.
-      return true
+   local perms
+   if mode == "read" and scope == "user" then
+      perms = fs._unix_moderate_permissions("600")
+   elseif mode == "exec" and scope == "user" then
+      perms = fs._unix_moderate_permissions("700")
+   elseif mode == "read" and scope == "all" then
+      perms = fs._unix_moderate_permissions("644")
+   elseif mode == "exec" and scope == "all" then
+      perms = fs._unix_moderate_permissions("755")
    else
-      return false, "Couldn't extract archive "..archive..": unrecognized filename extension"
+      return false, "Invalid permission " .. mode .. " for " .. scope
    end
-   if not ok then
-      return false, "Failed extracting "..archive
-   end
-   return true
+   return fs.execute(vars.CHMOD, perms, filename)
 end
 
-function tools.get_permissions(filename)
-   local pipe = io.popen(vars.STAT.." "..vars.STATFLAG.." "..fs.Q(filename))
+function tools.attributes(filename, attrtype)
+   local flag = ((attrtype == "permissions") and vars.STATPERMFLAG)
+             or ((attrtype == "owner") and vars.STATOWNERFLAG)
+   if not flag then return "" end
+   local pipe = io.popen(fs.quiet_stderr(vars.STAT.." "..flag.." "..fs.Q(filename)))
    local ret = pipe:read("*l")
    pipe:close()
+   if ret == "" then
+      return nil
+   end
    return ret
 end
 
@@ -211,20 +266,33 @@ function tools.browser(url)
    return fs.execute(cfg.web_browser, url)
 end
 
+-- Set access and modification times for a file.
+-- @param filename File to set access and modification times for.
+-- @param time may be a string or number containing the format returned
+-- by os.time, or a table ready to be processed via os.time; if
+-- nil, current time is assumed.
 function tools.set_time(file, time)
+   assert(time == nil or type(time) == "table" or type(time) == "number")
    file = dir.normalize(file)
-   return fs.execute(vars.TOUCH, "-d", "@"..tostring(time), file)
+   local flag = ""
+   if type(time) == "number" then
+      time = os.date("*t", time)
+   end
+   if type(time) == "table" then
+      flag = ("-t %04d%02d%02d%02d%02d.%02d"):format(time.year, time.month, time.day, time.hour, time.min, time.sec)
+   end
+   return fs.execute(vars.TOUCH .. " " .. flag, file)
 end
 
 --- Create a temporary directory.
--- @param name string: name pattern to use for avoiding conflicts
+-- @param name_pattern string: name pattern to use for avoiding conflicts
 -- when creating temporary directory.
 -- @return string or (nil, string): name of temporary directory or (nil, error message) on failure.
-function tools.make_temp_dir(name)
-   assert(type(name) == "string")
-   name = dir.normalize(name)
+function tools.make_temp_dir(name_pattern)
+   assert(type(name_pattern) == "string")
+   name_pattern = dir.normalize(name_pattern)
 
-   local template = (os.getenv("TMPDIR") or "/tmp") .. "/luarocks_" .. name:gsub(dir.separator, "_") .. "-XXXXXX"
+   local template = (os.getenv("TMPDIR") or "/tmp") .. "/luarocks_" .. name_pattern:gsub("/", "_") .. "-XXXXXX"
    local pipe = io.popen(vars.MKTEMP.." -d "..fs.Q(template))
    local dirname = pipe:read("*l")
    pipe:close()

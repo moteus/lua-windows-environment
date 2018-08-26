@@ -1,9 +1,11 @@
 
 --- Generic utilities for handling pathnames.
 local dir = {}
-package.loaded["luarocks.dir"] = dir
 
-dir.separator = "/"
+local core = require("luarocks.core.dir")
+
+dir.path = core.path
+dir.split_url = core.split_url
 
 --- Strip the path off a path+filename.
 -- @param pathname string: A path+name, such as "/a/b/c"
@@ -26,39 +28,6 @@ function dir.dir_name(pathname)
    return (pathname:gsub("/*$", ""):match("(.*)[/]+[^/]*")) or ""
 end
 
---- Describe a path in a cross-platform way.
--- Use this function to avoid platform-specific directory
--- separators in other modules. Removes trailing slashes from
--- each component given, to avoid repeated separators.
--- Separators inside strings are kept, to handle URLs containing
--- protocols.
--- @param ... strings representing directories
--- @return string: a string with a platform-specific representation
--- of the path.
-function dir.path(...)
-   local t = {...}
-   while t[1] == "" do
-      table.remove(t, 1)
-   end
-   return (table.concat(t, "/"):gsub("([^:])/+", "%1/"):gsub("^/+", "/"):gsub("/*$", ""))
-end
-
---- Split protocol and path from an URL or local pathname.
--- URLs should be in the "protocol://path" format.
--- For local pathnames, "file" is returned as the protocol.
--- @param url string: an URL or a local pathname.
--- @return string, string: the protocol, and the pathname without the protocol.
-function dir.split_url(url)
-   assert(type(url) == "string")
-   
-   local protocol, pathname = url:match("^([^:]*)://(.*)")
-   if not protocol then
-      protocol = "file"
-      pathname = url
-   end
-   return protocol, pathname
-end
-
 --- Normalize a url or local path.
 -- URLs should be in the "protocol://path" format. System independent
 -- forward slashes are used, removing trailing and double slashes
@@ -69,6 +38,22 @@ function dir.normalize(name)
    pathname = pathname:gsub("\\", "/"):gsub("(.)/*$", "%1"):gsub("//", "/")
    if protocol ~= "file" then pathname = protocol .."://"..pathname end
    return pathname
+end
+
+--- Returns true if protocol does not require additional tools.
+-- @param protocol The protocol name
+function dir.is_basic_protocol(protocol)
+   return protocol == "http" or protocol == "https" or protocol == "ftp" or protocol == "file"
+end
+
+function dir.deduce_base_dir(url)
+   -- for extensions like foo.tar.gz, "gz" is stripped first
+   local known_exts = {}
+   for _, ext in ipairs{"zip", "git", "tgz", "tar", "gz", "bz2"} do
+      known_exts[ext] = ""
+   end
+   local base = dir.base_name(url)
+   return (base:gsub("%.([^.]*)$", known_exts):gsub("%.tar", ""))
 end
 
 return dir

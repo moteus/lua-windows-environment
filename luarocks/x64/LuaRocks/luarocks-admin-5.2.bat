@@ -1,8 +1,8 @@
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION ENABLEEXTENSIONS
 
-SET LUAROCKS_PATH=c:\luarocks\x86\LuaRocks
-SET LUA_EXECUTABLE=c:\luarocks\x86\5.2\bin\lua52.exe
+SET LUAROCKS_PATH=c:\luarocks\x64\LuaRocks
+SET LUA_EXECUTABLE=c:\luarocks\x64\5.2\bin\lua52.exe
 
 SET "LUA_PATH=%LUAROCKS_PATH%\lua\?.lua;%LUAROCKS_PATH%\lua\?\init.lua;%LUA_PATH%"
 IF NOT "%LUA_PATH_5_2%"=="" (
@@ -12,7 +12,7 @@ IF NOT "%LUA_PATH_5_3%"=="" (
    SET "LUA_PATH_5_3=%LUAROCKS_PATH%\lua\?.lua;%LUAROCKS_PATH%\lua\?\init.lua;%LUA_PATH_5_3%"
 )
 SET "PATH=%LUAROCKS_PATH%;%PATH%"
-"%LUA_EXECUTABLE%" "%LUAROCKS_PATH%\luarocks-admin.lua" %*
+"%LUA_EXECUTABLE%" "%LUAROCKS_PATH%\luarocks-admin" %*
 SET EXITCODE=%ERRORLEVEL%
 IF NOT "%EXITCODE%"=="2" GOTO EXITLR
 
