@@ -1,8 +1,8 @@
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION ENABLEEXTENSIONS
 
-SET LUAROCKS_PATH=c:\luarocks\x86\LuaRocks
-SET LUA_EXECUTABLE=c:\luarocks\x86\5.1\bin\lua51.exe
+SET LUAROCKS_PATH=c:\luarocks\x64\LuaRocks
+SET LUA_EXECUTABLE=c:\luarocks\x64\5.1\bin\lua51.exe
 
 SET "LUA_PATH=%LUAROCKS_PATH%\lua\?.lua;%LUAROCKS_PATH%\lua\?\init.lua;%LUA_PATH%"
 IF NOT "%LUA_PATH_5_2%"=="" (
