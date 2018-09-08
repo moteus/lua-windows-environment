@@ -15,11 +15,16 @@ init.help = [[
 <name> is the project name.
 <version> is an optional project version.
 
+--reset                  Regenerate .luarocks/config-5.x.lua and ./lua wrapper
+                         if those already exist.
+
+Options for specifying rockspec data:
+
 --license="<string>"     A license string, such as "MIT/X11" or "GNU GPL v3".
 --summary="<txt>"        A short one-line description summary.
 --detailed="<txt>"       A longer description string.
 --homepage=<url>         Project homepage.
---lua-version=<ver>      Supported Lua versions. Accepted values are "5.1", "5.2",
+--lua-versions=<ver>     Supported Lua versions. Accepted values are "5.1", "5.2",
                          "5.3", "5.1,5.2", "5.2,5.3", or "5.1,5.2,5.3".
 --rockspec-format=<ver>  Rockspec format version, such as "1.0" or "1.1".
 --lib=<lib>[,<lib>]      A comma-separated list of libraries that C files need to
@@ -86,6 +91,12 @@ function init.command(flags, name, version)
    if not fs.exists(config_file) then
       local fd = io.open(config_file, "w")
       fd:write("-- LuaRocks configuration for use with Lua " .. cfg.lua_version .. "\n")
+      if cfg.lua_interpreter then
+         fd:write(("lua_interpreter = %q\n"):format(cfg.lua_interpreter))
+      end
+      if cfg.luajit_version then
+         fd:write(("luajit_version = %q\n"):format(cfg.luajit_version))
+      end
       fd:write("variables = {\n")
       local varnames = {
          "LUA_DIR",
@@ -121,8 +132,19 @@ function init.command(flags, name, version)
    end
 
    local lua_wrapper = "./lua" .. ext
+
+   if flags["reset"] then
+      fs.delete(lua_wrapper)
+      for v in util.lua_versions() do
+         if v ~= cfg.lua_version then
+            local config_file = dir.path(".luarocks", "config-"..v..".lua")
+            fs.move(config_file, config_file .. "~")
+         end
+      end
+   end
+
    if not fs.exists(lua_wrapper) then
-      util.printout("Preparing " .. lua_wrapper .. " ...")
+      util.printout("Preparing " .. lua_wrapper .. " for version " .. cfg.lua_version .. "...")
       path.use_tree(tree)
       fs.wrap_script(nil, "lua", "all")
    else

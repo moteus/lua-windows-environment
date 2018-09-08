@@ -584,8 +584,6 @@ function cfg.init(lua_data, project_dir, warning)
       LUA_LIBDIR = lua_libdir,
    }
 
-   cfg.rocks_trees = {}
-
    cfg.init = init
 
    ----------------------------------------
@@ -695,16 +693,17 @@ function cfg.init(lua_data, project_dir, warning)
    ----------------------------------------
 
    -- Settings given via lua_data (i.e. --lua-dir) take precedence over config files:
-   cfg.lua_version          = lua_data.lua_version     or cfg.lua_version
-   cfg.luajit_version       = lua_data.luajit_version  or cfg.luajit_version
-   cfg.lua_interpreter      = lua_data.lua_interpreter or cfg.lua_interpreter
-   cfg.variables.LUA_BINDIR = lua_data.lua_bindir      or cfg.variables.LUA_BINDIR or lua_bindir
-   cfg.variables.LUA_INCDIR = lua_data.lua_incdir      or cfg.variables.LUA_INCDIR or lua_incdir
-   cfg.variables.LUA_LIBDIR = lua_data.lua_libdir      or cfg.variables.LUA_LIBDIR or lua_libdir
-   cfg.variables.LUA_DIR    = lua_data.lua_dir         or cfg.variables.LUA_DIR    or lua_dir
+   cfg.lua_version = lua_data.lua_version or cfg.lua_version
+   cfg.luajit_version = lua_data.luajit_version or cfg.luajit_version
+   cfg.lua_interpreter = lua_data.lua_interpreter or cfg.lua_interpreter
+   cfg.variables.LUA_BINDIR = lua_data.lua_bindir or cfg.variables.LUA_BINDIR or lua_bindir
+   cfg.variables.LUA_INCDIR = lua_data.lua_incdir or cfg.variables.LUA_INCDIR or lua_incdir
+   cfg.variables.LUA_LIBDIR = lua_data.lua_libdir or cfg.variables.LUA_LIBDIR or lua_libdir
+   cfg.variables.LUA_DIR = lua_data.lua_dir or cfg.variables.LUA_DIR or lua_dir
 
    -- Build a default list of rocks trees if not given
-   if not next(cfg.rocks_trees) then
+   if cfg.rocks_trees == nil then
+      cfg.rocks_trees = {}
       if cfg.home_tree then
          table.insert(cfg.rocks_trees, { name = "user", root = cfg.home_tree } )
       end
@@ -727,7 +726,7 @@ function cfg.init(lua_data, project_dir, warning)
    defaults.rocks_provided, defaults.rocks_provided_3_0 = make_rocks_provided(lua_version, luajit_version)
    use_defaults(cfg, defaults)
 
-   cfg.variables.LUA = cfg.variables.LUA or (cfg.variables.LUA_BINDIR and cfg.variables.LUA_BINDIR .. "/" .. cfg.lua_interpreter)
+   cfg.variables.LUA = cfg.variables.LUA or (cfg.variables.LUA_BINDIR and cfg.variables.LUA_BINDIR .. "/" .. cfg.lua_interpreter):gsub("//", "/")
    cfg.user_agent = "LuaRocks/"..cfg.program_version.." "..cfg.arch
 
    ----------------------------------------

@@ -4,6 +4,8 @@ local show = {}
 
 local queries = require("luarocks.queries")
 local search = require("luarocks.search")
+local dir = require("luarocks.core.dir")
+local fs = require("luarocks.fs")
 local cfg = require("luarocks.core.cfg")
 local util = require("luarocks.util")
 local path = require("luarocks.path")
@@ -44,10 +46,10 @@ local friendly_template = [[
 ?location :Installed in: \t${location}
 ?commands :
 ?commands :Commands:
-*commands :\t${name} (${repo})
+*commands :\t${name} (${file})
 ?modules  :
 ?modules  :Modules:
-*modules  :\t${name} (${repo})
+*modules  :\t${name} (${file})
 ?bdeps    :
 ?bdeps    :Has build dependency on:
 *bdeps    :\t${name} (${label})
@@ -74,8 +76,8 @@ local porcelain_template = [[
 ?issues   :issues\t${issues}
 ?labels   :labels\t${labels}
 ?location :location\t${location}
-*commands :command\t${name}\t${repo}
-*modules  :module\t${name}\t${repo}
+*commands :command\t${name}\t${file}
+*modules  :module\t${name}\t${file}
 *bdeps    :build_dependency\t${name}\t${label}
 *tdeps    :test_dependency\t${name}\t${label}
 *deps     :dependency\t${name}\t${label}
@@ -144,11 +146,59 @@ local function render(template, data)
    return table.concat(out, "\n")
 end
 
-local function files_to_list(name, version, item_set, item_type, repo)
+local function adjust_path(name, version, basedir, pathname, suffix)
+   pathname = dir.path(basedir, pathname)
+   local vpathname = path.versioned_name(pathname, basedir, name, version)
+   return (fs.exists(vpathname)
+          and vpathname
+          or pathname) .. (suffix or "")
+end
+
+local function modules_to_list(name, version, repo)
    local ret = {}
-   for item_name in util.sortedpairs(item_set) do
-      table.insert(ret, { name = item_name, repo = repos.which(name, version, item_type, item_name, repo) })
-   end
+   local rock_manifest = manif.load_rock_manifest(name, version, repo)
+
+   local lua_dir = path.deploy_lua_dir(repo)
+   local lib_dir = path.deploy_lib_dir(repo)
+   repos.recurse_rock_manifest_entry(rock_manifest.lua, function(pathname)
+      table.insert(ret, {
+         name = path.path_to_module(pathname),
+         file = adjust_path(name, version, lua_dir, pathname),
+      })
+   end)
+   repos.recurse_rock_manifest_entry(rock_manifest.lib, function(pathname)
+      table.insert(ret, {
+         name = path.path_to_module(pathname),
+         file = adjust_path(name, version, lib_dir, pathname),
+      })
+   end)
+   table.sort(ret, function(a, b)
+      if a.name == b.name then
+         return a.file < b.file
+      end
+      return a.name < b.name
+   end)
+   return ret
+end
+
+local function commands_to_list(name, version, repo)
+   local ret = {}
+   local rock_manifest = manif.load_rock_manifest(name, version, repo)
+
+   local bin_dir = path.deploy_bin_dir(repo)
+   repos.recurse_rock_manifest_entry(rock_manifest.bin, function(pathname)
+      pathname = adjust_path(name, version, bin_dir, pathname)
+      table.insert(ret, {
+         name = pathname,
+         file = adjust_path(name, version, bin_dir, pathname, cfg.wrapper_suffix),
+      })
+   end)
+   table.sort(ret, function(a, b)
+      if a.name == b.name then
+         return a.file < b.file
+      end
+      return a.name < b.name
+   end)
    return ret
 end
 
@@ -187,8 +237,8 @@ local function show_rock(template, namespace, name, version, rockspec, repo, min
       issues = desc.issues_url,
       labels = desc.labels and table.concat(desc.labels, ", "),
       location = path.rocks_tree_to_string(repo),
-      commands = files_to_list(name, version, minfo.commands, "command", repo),
-      modules = files_to_list(name, version, minfo.modules, "module", repo),
+      commands = commands_to_list(name, version, repo),
+      modules = modules_to_list(name, version, repo),
       bdeps = deps_to_list(rockspec.build_dependencies, tree),
       tdeps = deps_to_list(rockspec.test_dependencies, tree),
       deps = deps_to_list(rockspec.dependencies, tree),
@@ -255,6 +305,5 @@ function show.command(flags, name, version)
    end
    return true
 end
-
 
 return show
