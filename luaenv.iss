@@ -141,20 +141,23 @@ Source: "{#ROOT}\Lua\5.3\include\*"; DestDir: "{app}\{#Arch}\5.3\include"; Compo
 Source: "{#ROOT}\LuaService\{#ArchName}\{#RT}\5.3\*"; DestDir: "{app}\{#Arch}\5.3\bin"; Components: Lua53\LuaService
 
 ; LuaRocks
-Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\*"; DestDir: "{app}\{#Arch}\LuaRocks"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; Excludes: "config-5.*.lua,luarocks-5.*.bat,luarocks-admin-5.*.bat,hardcoded.lua"
+Source: "{#ROOT}\luarocks\common\LuaRocks\*"; DestDir: "{app}\{#Arch}\LuaRocks"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; Excludes: "luarocksw-5.*.bat"
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\lua\luarocks\core\hardcoded.lua"; DestDir: "{app}\{#Arch}\LuaRocks\lua\luarocks\core"; Flags: recursesubdirs; Components: Lua51 Lua52 Lua53; AfterInstall: FixPath
 
 ; LuaRocks Lua 5.1 config
+Source: "{#ROOT}\luarocks\common\LuaRocks\luarocksw-5.1.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua51
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\config-5.1.lua"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua51; AfterInstall: FixPath
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-5.1.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua51; AfterInstall: FixPath
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-admin-5.1.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua51; AfterInstall: FixPath
 
 ; LuaRocks Lua 5.2 config
+Source: "{#ROOT}\luarocks\common\LuaRocks\luarocksw-5.2.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua52
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\config-5.2.lua"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua52; AfterInstall: FixPath
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-5.2.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua52; AfterInstall: FixPath
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-admin-5.2.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua52; AfterInstall: FixPath
 
 ; LuaRocks Lua 5.3 config
+Source: "{#ROOT}\luarocks\common\LuaRocks\luarocksw-5.3.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua53
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\config-5.3.lua"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua53; AfterInstall: FixPath
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-5.3.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua53; AfterInstall: FixPath
 Source: "{#ROOT}\luarocks\{#Arch}\LuaRocks\luarocks-admin-5.3.bat"; DestDir: "{app}\{#Arch}\LuaRocks"; Components: Lua53; AfterInstall: FixPath

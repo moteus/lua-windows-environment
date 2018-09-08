@@ -10,7 +10,8 @@ or as part of Microsoft Build Tools.
 ![Screenshot](image/luaver.gif)
 
 ### Manual install
- * Copy `luarocks` directory on `c:` drive.
+ * Copy `luarocks/x64`, `luarocks/x86` and `luarocks/luaenv.bat` to the `c:` drive.
+ * Copy `luarocks/common/LuaRocks` to `c:/luarocks/x86` and c:/luarocks/x64` directories.
  * Copy Lua binaries/lib/include files to appropriate folder.
     e.g. If you want install Lua 5.3 win MSVC 10 for x86
      - copy .\Lua\5.3\Win32\v100\bin to c:\LuaRocks\x86\5.3\bin
@@ -36,4 +37,4 @@ or as part of Microsoft Build Tools.
   * `\luarocks\*\LuaRocks\config-*.lua`
   * `\luarocks\*\LuaRocks\luarocks-*.bat`
   * `\luarocks\*\LuaRocks\luarocks-admin-*.bat`
-  * `\luarocks\*\LuaRocks\lua\luarocks\site_config.lua`
+  * `\luarocks\*\LuaRocks\lua\core\hardcoded.lua`
