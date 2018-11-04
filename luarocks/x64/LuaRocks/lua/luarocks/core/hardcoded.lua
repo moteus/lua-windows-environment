@@ -3,7 +3,7 @@ local lua_dir = base_dir .. [[\5.1]]
 local luarocks_dir = base_dir .. [[\luarocks]]
 
 return {
-   SYSTEM     = [[WindowsNT]],
+   SYSTEM     = [[windows]],
    PROCESSOR  = [[x86_64]],
    PREFIX     = luarocks_dir,
    SYSCONFDIR = luarocks_dir,
